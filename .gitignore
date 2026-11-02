@@ -1,0 +1,13 @@
+# Artefatos de compilacao (arduino-cli / build.sh)
+build/
+*.bin
+*.elf
+*.map
+*.o
+*.a
+
+# Sistema / editor
+.DS_Store
+.vscode/
+*.log
+~$*
