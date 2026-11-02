@@ -21,7 +21,7 @@ const char INDEX_HTML[] PROGMEM = R"HTML(<!DOCTYPE html>
 :root{
   --hud:#4dd8ff; --hud-dim:#1a6a8a; --glow:rgba(77,216,255,.55);
   --bg0:#02060d; --bg1:#061423; --panel:rgba(10,30,48,.55);
-  --off:rgba(77,216,255,.08);
+  --off:.08; /* segmentos apagados (08 escuro) */
   --hot:#ff9a4d; --cool:#4dd8ff;
 }
 *{box-sizing:border-box;margin:0;padding:0;user-select:none}
