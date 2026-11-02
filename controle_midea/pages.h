@@ -163,7 +163,7 @@ button.active{background:var(--hud);color:#03202e;box-shadow:0 0 16px var(--glow
   </div>
 
   <div class="log">CMD&gt; <b id="log">INIT</b></div>
-  <div class="rails"><span>IR TX GPIO4</span><span>SYS OK</span><a href="/ota">&#128230; OTA</a>&nbsp;<a href="/setup">&#9881; CFG</a></div>
+  <div class="rails"><a href="http://air_office.local">&#127760; air_office.local</a><span>SYS OK</span><a href="/ota">&#128230; OTA</a>&nbsp;<a href="/setup">&#9881; CFG</a></div>
 </div>
 
 <script>
@@ -280,7 +280,7 @@ button.save{background:var(--hud);color:#03202e;font-weight:bold;border-color:va
   <div class="corner c1"></div><div class="corner c2"></div>
   <div class="corner c3"></div><div class="corner c4"></div>
   <h1>MIDEA // CONFIG WIFI</h1>
-  <div class="sub">MODO DE CONFIGURACAO &mdash; REDE: Midea_Remote</div>
+  <div class="sub">MODO DE CONFIGURACAO &mdash; REDE: Midea_Remote<br>ACESSO: http://air_office.local</div>
 
   <label>SSID DA REDE</label>
   <input id="ssid" autocomplete="off" placeholder="nome da sua rede">

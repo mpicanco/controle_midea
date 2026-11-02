@@ -1,7 +1,9 @@
 # API Web — MIDEA Remote
 
-Todas as rotas respondem HTTP na porta 80. No modo cliente (STA), use o IP impresso no
-Serial Monitor. No modo portal (AP de configuração), o ESP32 fica em `192.168.4.1`.
+Todas as rotas respondem HTTP na porta 80, em **`http://air_office.local`** (alias
+mDNS configurado em `DEVICE_HOSTNAME`; Android pode exigir o IP direto) ou no IP
+impresso no Serial Monitor. No modo portal (AP de configuração), o ESP32 fica
+em `192.168.4.1`.
 
 ---
 

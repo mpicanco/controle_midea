@@ -3,6 +3,7 @@
 #include "web_server.h"
 #include <WiFi.h>
 #include <DNSServer.h>
+#include <ESPmDNS.h>
 #include <Preferences.h>
 
 static Preferences m_prefs;
@@ -55,9 +56,15 @@ static void portal_begin()
     WiFi.softAP(AP_SSID, AP_PASS);           // AP_PASS vazio = rede aberta
     m_dns.start(53, "*", WiFi.softAPIP());
 
+    // alias mDNS tambem na rede do AP (quando o cliente suportar)
+    if (MDNS.begin(DEVICE_HOSTNAME)) {
+        MDNS.addService("http", "tcp", 80);
+    }
+
     Serial.println("\n=== MODO CONFIGURACAO ===");
     Serial.print("AP: "); Serial.println(AP_SSID);
     Serial.print("IP: "); Serial.println(WiFi.softAPIP());
+    Serial.print("Alias: http://"); Serial.print(DEVICE_HOSTNAME); Serial.println(".local");
     Serial.println("Conecte o celular nesta rede; o portal abre sozinho");
     Serial.println("(ou http://192.168.4.1/setup)");
 
@@ -74,6 +81,7 @@ void wifi_begin()
 
     if (ssid.length()) {
         WiFi.mode(WIFI_STA);
+        WiFi.setHostname(DEVICE_HOSTNAME);   // nome visivel no roteador
         WiFi.begin(ssid.c_str(), pass.c_str());
         Serial.print("Conectando em \"" + ssid + "\"");
         uint32_t t0 = millis();
@@ -85,6 +93,14 @@ void wifi_begin()
             Serial.println();
             Serial.print("Conectado! IP: ");
             Serial.println(WiFi.localIP());
+
+            // alias mDNS: http://air_office.local
+            if (MDNS.begin(DEVICE_HOSTNAME)) {
+                MDNS.addService("http", "tcp", 80);
+                Serial.print("Alias: http://");
+                Serial.print(DEVICE_HOSTNAME);
+                Serial.println(".local");
+            }
             m_portal = false;
             web_server_begin();              // modo normal
             return;

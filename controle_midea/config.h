@@ -35,4 +35,7 @@
 #define RESET_BTN_MS        5000    ///< segurar o botao BOOT por este tempo apaga credenciais
 
 // ---------------- Botoes ----------------
-#define RESET_BTN_PIN       0       ///< GPIO0 = botao BOOT no DevKit V4
+#define RESET_BTN_PIN       0       ///< GPIO0 = botao BOOT no DevKit
+
+// ---------------- Rede / acesso ----------------
+#define DEVICE_HOSTNAME     "air_office"    ///< alias mDNS: http://<hostname>.local V4

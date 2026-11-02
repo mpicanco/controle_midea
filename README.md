@@ -35,9 +35,22 @@ Controle remoto IR para ar-condicionado **Midea** (e compatíveis) via **ESP32 W
 4. As credenciais ficam gravadas na flash (NVS). Nos próximos boots o ESP32 conecta direto em modo cliente (STA) e imprime o IP no Serial Monitor (115200).
 5. Se falhar ao conectar (rede ausente/errada), ele volta ao portal após ~20 s.
 
+### 3.1 Acesso pelo navegador: alias mDNS
+
+O dispositivo se anuncia na rede como **`air_office.local`** (mDNS/Bonjour, `ESPmDNS`) — em qualquer modo:
+
+```
+http://air_office.local
+```
+
+- **macOS/iOS/Windows 10+ e Linux (Avahi):** resolvem `.local` nativamente.
+- **Android:** suporte a mDNS no navegador é irregular — nesse caso use o IP (veja abaixo).
+- O hostname é definido em `config.h:DEVICE_HOSTNAME` e também aparece no painel do roteador (`WiFi.setHostname`).
+- **IP fixo (recomendação complementar):** configure uma **reserva DHCP** no roteador para o MAC do ESP32 — combina bem com o alias e garante endereço estável.
+
 **Resetar WiFi:** segure o botão **BOOT por 5 s** → credenciais apagadas, reinicia em modo portal.
 
-> Mesmo no modo portal, o painel de controle fica acessível via `http://192.168.4.1/`.
+> Mesmo no modo portal, o painel de controle fica acessível via `http://192.168.4.1/` (ou `http://air_office.local`, se o cliente resolver mDNS na rede do AP).
 
 ## 4. Estrutura do projeto
 
