@@ -11,7 +11,8 @@ static String  m_lastCmd = "BOOT";
 // ============================================================
 // Grava/le o conjunto completo do ajuste: on, modo, temperatura e
 // ventilacao. Ao LIGAR o estado salvo e restaurado antes de enviar
-// o sinal IR, garantindo que o AC receba sempre o ultimo ajuste.
+// o sinal IR (enabled forcada para true para nao desfazer o toggle),
+// garantindo que o AC receba sempre o ultimo ajuste.
 static void stateSave()
 {
     Preferences p;
@@ -64,7 +65,10 @@ bool mc_command(const String& act, int v)
     if (act == "power") {
         m_ir.enabled = !m_ir.enabled;
         if (m_ir.enabled) {
-            stateLoad();    // LIGAR sempre envia o ultimo ajuste persistido
+            // restaura o ultimo ajuste salvo (temp/modo/vent) e mantem LIGADO;
+            // stateLoad() traz enabled=false gravado, forceuid reativar depois
+            stateLoad();
+            m_ir.enabled = true;
         }
         sendIRState(m_ir.enabled ? "POWER ON" : "POWER OFF");
         return true;
