@@ -5,6 +5,7 @@
 
 static MideaIR m_ir;
 static String  m_lastCmd = "BOOT";
+static bool    m_osc     = false;   // palhetas oscilando (toggle estimado)
 
 // ============================================================
 //  Persistencia do ajuste (NVS)
@@ -21,6 +22,7 @@ static void stateSave()
     p.putUChar("mode", (uint8_t)m_ir.mode);
     p.putUChar("fan", m_ir.fan_level);
     p.putUChar("temp", m_ir.temperature);
+    p.putBool("osc",  m_osc);
     p.end();
 }
 
@@ -32,6 +34,7 @@ static void stateLoad()
     uint8_t mode       = p.getUChar("mode", DEFAULT_MODE);
     m_ir.fan_level     = p.getUChar("fan", DEFAULT_FAN_LEVEL);
     m_ir.temperature   = p.getUChar("temp", DEFAULT_TEMP);
+    m_osc              = p.getBool("osc", false);
     p.end();
 
     // valida valores: so aceita frio/quente; qualquer coisa vira frio
@@ -66,7 +69,7 @@ bool mc_command(const String& act, int v)
         m_ir.enabled = !m_ir.enabled;
         if (m_ir.enabled) {
             // restaura o ultimo ajuste salvo (temp/modo/vent) e mantem LIGADO;
-            // stateLoad() traz enabled=false gravado, forceuid reativar depois
+            // stateLoad() traz enabled=false gravado, forcar reativar depois
             stateLoad();
             m_ir.enabled = true;
         }
@@ -89,8 +92,9 @@ bool mc_command(const String& act, int v)
         return true;
     }
     if (act == "osc") {
+        m_osc = !m_osc;             // estado do toggle (estimado; sem feedback IR)
         midea_ir_oscilate();
-        m_lastCmd = "OSCILAR PALHETAS";
+        m_lastCmd = m_osc ? "PALHETAS ON" : "PALHETAS OFF";
         return true;
     }
     if (act == "fan") {
@@ -112,6 +116,8 @@ String mc_stateJson()
     j += String(m_ir.temperature);
     j += ",\"fan\":";
     j += String(m_ir.fan_level);
+    j += ",\"osc\":";
+    j += m_osc ? "true" : "false";
     j += ",\"last\":\"";
     j += m_lastCmd;
     j += "\"}";

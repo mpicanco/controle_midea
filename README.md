@@ -16,7 +16,7 @@ Controle remoto IR para ar-condicionado **Midea** (e compatíveis) via **ESP32 W
 | Oscilar | Comando de oscilação das palhetas (deflector) |
 | Ventilação | Auto / 1 / 2 / 3 (suportado pela biblioteca) |
 | WiFi persistente | Credenciais salvos na flash (NVS), portal de configuração no primeiro uso |
-| Estado persistente | `on`, modo, **temperatura** e ventilação salvos na NVS a cada comando; após reset o ajuste volta do último valor (padrão de fábrica: 23 °C, frio, vent. 1, desligado) |
+| Estado persistente | `on`, modo, **temperatura**, ventilação e **oscilação** salvos na NVS a cada comando; após reset o ajuste volta do último valor (padrão de fábrica: 23 °C, frio, vent. 1, palhetas fixas, desligado) |
 
 ## 2. Hardware
 

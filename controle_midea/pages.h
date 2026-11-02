@@ -130,6 +130,7 @@ button.active{background:var(--hud);color:#03202e;box-shadow:0 0 16px var(--glow
     <span class="chip" id="chipPw">DESLIGADO</span>
     <span class="chip" id="chipMode">FRIO</span>
     <span class="chip" id="chipFan">VENT AUTO</span>
+    <span class="chip" id="chipOsc">PALHETAS FIXAS</span>
   </div>
 
   <div class="grid btn-pw">
@@ -160,7 +161,7 @@ button.active{background:var(--hud);color:#03202e;box-shadow:0 0 16px var(--glow
   </div>
 
   <div class="grid">
-    <button class="wide" onclick="cmd('osc')">&#9784;&#65039; OSCILAR PALHETAS</button>
+    <button id="bOsc" class="wide" onclick="cmd('osc')">&#9784;&#65039; OSCILAR PALHETAS</button>
   </div>
 
   <div class="log">CMD&gt; <b id="log">INIT</b></div>
@@ -192,7 +193,7 @@ function draw(el,ch){
   const on=(ch=="-"?DASH:SEGS[ch])||"";
   for(const k of "abcdefg") el._s[k].classList.toggle("on", on.includes(k));
 }
-let st={on:false,mode:"cool",temp:24,fan:0};
+let st={on:false,mode:"cool",temp:24,fan:0,osc:false};
 
 function render(){
   // setpoint SEMPRE visivel (apagado = digitos dimmed)
@@ -212,6 +213,9 @@ function render(){
   document.getElementById("chipFan").textContent="VENT "+(st.fan==0?"AUTO":st.fan);
   document.getElementById("chipFan").classList.toggle("on",st.on);
   for(let i=0;i<4;i++) document.getElementById("f"+i).classList.toggle("active", st.on&&st.fan==i);
+  document.getElementById("bOsc").classList.toggle("active", st.on&&st.osc);
+  document.getElementById("chipOsc").textContent=st.osc?"PALHETAS OSCILANDO":"PALHETAS FIXAS";
+  document.getElementById("chipOsc").classList.toggle("on", st.on&&st.osc);
   document.getElementById("log").textContent=st.last||"-";
   document.getElementById("dot").classList.toggle("dead",!st.on);
 }

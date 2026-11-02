@@ -79,13 +79,14 @@ JSON do estado atual do ar-condicionado:
   "mode": "cool",   // "cool" | "heat"
   "temp": 24,        // 17..30
   "fan": 1,          // 0=Auto, 1..3
+  "osc": false,      // toggle estimado das palhetas (sem feedback IR)
   "last": "TEMP-23"  // rótulo do último comando aplicado
 }
 ```
 
-O estado completo é persistente (NVS): cada comando grava `on/mode/temp/fan`
+O estado completo é persistente (NVS): cada comando grava `on/mode/temp/fan/osc`
 na flash e é restaurado no próximo boot. Valores de fábrica: desligado,
-frio, 23 °C, ventilação 1.
+frio, 23 °C, ventilação 1, palhetas fixas.
 
 ### `GET /cmd`
 Aplica um comando e responde com o novo estado (`/status`). Formato:
@@ -100,7 +101,7 @@ Aplica um comando e responde com o novo estado (`/status`). Formato:
 | `up`    | —           | Aumenta temperatura (até 30 °C) |
 | `down`  | —           | Diminui temperatura (até 17 °C) |
 | `mode`  | —           | Alterna frio ⇄ quente |
-| `osc`   | —           | Oscila as palhetas (frame `{0xB2,0x6B,0xE0}`) |
+| `osc`   | —           | Altera toggle das palhetas e envia frame `{0xB2,0x6B,0xE0}` |
 | `fan`   | `0`,`1`,`2`,`3` | Ventilação (0 = auto) |
 
 - Ação aplicada → `200` + JSON de estado.
