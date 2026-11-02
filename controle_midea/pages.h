@@ -20,8 +20,9 @@ const char INDEX_HTML[] PROGMEM = R"HTML(<!DOCTYPE html>
 <style>
 :root{
   --hud:#4dd8ff; --hud-dim:#1a6a8a; --glow:rgba(77,216,255,.55);
+  --seg:#a6f2ff; --seg-dim:rgba(77,216,255,.5);
   --bg0:#02060d; --bg1:#061423; --panel:rgba(10,30,48,.55);
-  --off:.08; /* segmentos apagados (08 escuro) */
+  --off:.08;
   --hot:#ff9a4d; --cool:#4dd8ff;
 }
 *{box-sizing:border-box;margin:0;padding:0;user-select:none}
@@ -65,9 +66,9 @@ body::after{ /* scanlines */
   transform:skewX(-5deg);
 }
 .dig{position:relative;width:74px;height:132px}
-.dig.dim .seg.on{opacity:.22}
-.seg{position:absolute;border-radius:4px;background:var(--hud);
-  box-shadow:0 0 10px var(--glow),0 0 26px rgba(77,216,255,.35);
+.dig.dim .seg.on{opacity:.28}
+.seg{position:absolute;border-radius:4px;background:var(--seg);
+  box-shadow:0 0 10px var(--seg-dim),0 0 26px var(--glow),0 0 56px rgba(166,242,255,.45);
   opacity:var(--off); transition:opacity .1s}
 .seg.on{opacity:1}
 .h{left:14%;right:14%;height:11%}
