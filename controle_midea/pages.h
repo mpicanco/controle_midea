@@ -215,14 +215,23 @@ function render(){
   document.getElementById("dot").classList.toggle("dead",!st.on);
 }
 async function refresh(){
-  try{ st=await (await fetch("/status")).json(); render(); }
-  catch(e){ document.getElementById("log").textContent="ERRO DE CONEXAO"; }
+  try{
+    const r=await fetch("/status");
+    if(!r.ok){ document.getElementById("log").textContent="FALHA HTTP "+r.status; return; }
+    st=await r.json(); render();
+  }catch(e){
+    document.getElementById("log").textContent="SEM CONEXAO (rede/alias?)";
+    document.getElementById("dot").classList.add("dead");
+  }
 }
 async function cmd(act,v){
+  const log=document.getElementById("log");
+  log.textContent="--> "+act+(v!==undefined?" "+v:"");
   try{
-    st=await (await fetch("/cmd?act="+act+(v!==undefined?"&v="+v:""))).json();
-    render();
-  }catch(e){ document.getElementById("log").textContent="ERRO DE CONEXAO"; }
+    const r=await fetch("/cmd?act="+act+(v!==undefined?"&v="+v:""));
+    if(!r.ok){ log.textContent="FALHA HTTP "+r.status; return; }
+    st=await r.json(); render();
+  }catch(e){ log.textContent="SEM CONEXAO (rede/alias?)"; }
 }
 function setMode(m){ if(st.mode!==m) cmd('mode'); }
 refresh(); setInterval(refresh,5000);

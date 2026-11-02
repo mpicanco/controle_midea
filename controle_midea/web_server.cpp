@@ -60,7 +60,10 @@ static void handleStatus()
 // GET /cmd?act=power|up|down|mode|osc|fan&v=0..3
 static void handleCmd()
 {
-    bool ok = mc_command(server.arg("act"), server.arg("v").toInt());
+    String act = server.arg("act");
+    Serial.println("[HTTP] /cmd act=" + act + " v=" + server.arg("v"));
+
+    bool ok = mc_command(act, server.arg("v").toInt());
     if (ok) {
         sendNoStore(mc_stateJson());
     } else {
